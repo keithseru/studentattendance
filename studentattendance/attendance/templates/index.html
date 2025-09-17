@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance</title>
+
+    <!-- Bootstrap CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body class="bg-info">
+    <!-- Navbar -->
+    <nav class="navbar bg-primary justify-content-end fw-bold" data-bs-theme="dark">
+        <!-- Navbar content -->
+        <ul class="nav">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'home' %}">Home</a> </li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'create' %}">Create</a> </li>
+        </ul>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <!-- Present Card -->
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-success text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Present</h5>
+                        <p class="display-4">{{ present }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Absent Card -->
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-danger text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Absent</h5>
+                        <p class="display-4">{{ absent }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container shadow mt-5 bg-primary pt-4">
+        <table class="table table-striped text-center">
+            <caption class="text-center fw-bold text-white">Student Attendance Records</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Student ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Is Present</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+
+            {% for student in attendanceList %}
+            <tr>
+                <td>{{ student.student_id }}</td>
+                <td>{{ student.first_name }}</td>
+                <td>{{ student.last_name }}</td>
+                <td>{{ student.is_present|yesno:"Present,Absent" }}</td>
+                <td>{{ student.date }}</td>
+                <td class="text-center">
+                    <div>
+                        <a href="{% url 'view_attendance' student.id %}" class="me-2">View</a>
+                        <a href="{% url 'edit_attendance' student.id %}" class="text-warning me-2">Edit</a>
+                        <a href="{% url 'delete_attendance' student.id %}" class="text-danger">Delete</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Bootstrap JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
